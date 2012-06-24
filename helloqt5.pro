@@ -3,6 +3,10 @@ folder_01.source = qml/helloqt5
 folder_01.target = qml
 DEPLOYMENTFOLDERS = folder_01
 
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += quick quick1
+}
+
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 

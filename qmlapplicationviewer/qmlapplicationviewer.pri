@@ -7,8 +7,16 @@
 
 QT += declarative
 
-SOURCES += $$PWD/qmlapplicationviewer.cpp
+greaterThan(QT_MAJOR_VERSION, 4) {
+    SOURCES += $$PWD/qmlapplicationviewer_qt5.cpp
+    HEADERS += $$PWD/qmlapplicationviewer_qt5.h
+} else {
+    SOURCES += $$PWD/qmlapplicationviewer_qt4.cpp
+    HEADERS += $$PWD/qmlapplicationviewer_qt4.h
+}
+
 HEADERS += $$PWD/qmlapplicationviewer.h
+
 INCLUDEPATH += $$PWD
 
 # Include JS debugger library if QMLJSDEBUGGER_PATH is set

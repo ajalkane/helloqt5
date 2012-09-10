@@ -34,7 +34,9 @@ make distclean # If you have compiled for another target
 qmake
 dpkg-buildpackage
 
-If you get errors about missing 'xcb*" libraries, install them and run "dpkg-buildpackage" again
+If you get errors about missing 'xcb*" libraries, install them and run "dpkg-buildpackage" again.
+
+The resulting debian package will appear one level above helloqt5 directory.
 
 Running on device
 =================
@@ -51,7 +53,7 @@ QML_IMPORT_PATH=/opt/qt5/imports LD_LIBRARY_PATH=/opt/qt5/lib /opt/helloqt5/bin/
 Known issues
 ============
  - Tilting the device does not change the orientation. This probably needs some changes to meego plugin and/or qt-components.
-
+ - The homescreen icon is not yet usable
 
 
 

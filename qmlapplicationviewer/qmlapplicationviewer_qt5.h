@@ -1,10 +1,10 @@
 #ifndef QMLAPPLICATIONVIEWER_H
 #define QMLAPPLICATIONVIEWER_H
 
-#include <QtWidgets/QApplication>
-#include <QtQuick1/QDeclarativeView>
+#include <QtGui/QGuiApplication>
+#include <QtQuick/QQuickView>
 
-class QmlApplicationViewer : public QDeclarativeView
+class QmlApplicationViewer : public QQuickView
 {
     Q_OBJECT
 
@@ -15,7 +15,7 @@ public:
         ScreenOrientationAuto
     };
 
-    explicit QmlApplicationViewer(QWidget *parent = 0);
+    explicit QmlApplicationViewer(QWindow *parent = 0);
     virtual ~QmlApplicationViewer();
 
     static QmlApplicationViewer *create();
@@ -29,10 +29,10 @@ public:
     void showExpanded();
 
 private:
-    explicit QmlApplicationViewer(QDeclarativeView *view, QWidget *parent);
+    explicit QmlApplicationViewer(QQuickView *view, QWindow *parent);
     class QmlApplicationViewerPrivate *d;
 };
 
-QApplication *createApplication(int &argc, char **argv);
+QGuiApplication *createApplication(int &argc, char **argv);
 
 #endif // QMLAPPLICATIONVIEWER_H

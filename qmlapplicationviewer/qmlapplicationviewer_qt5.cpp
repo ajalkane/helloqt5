@@ -2,11 +2,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
-#include <QtQuick1/QDeclarativeComponent>
-#include <QtQuick1/QDeclarativeEngine>
-#include <QtQuick1/QDeclarativeContext>
-#include <QtQuick1/QDeclarativeView>
-#include <QtWidgets/QApplication>
+#include <QQmlEngine>
 
 #include <qplatformdefs.h> // MEEGO_EDITION_HARMATTAN
 
@@ -41,10 +37,10 @@ static QmlJsDebuggingEnabler enableDebuggingHelper;
 
 class QmlApplicationViewerPrivate
 {
-    QmlApplicationViewerPrivate(QDeclarativeView *view_) : view(view_) {}
+    QmlApplicationViewerPrivate(QQuickView *view_) : view(view_) {}
 
     QString mainQmlFile;
-    QDeclarativeView *view;
+    QQuickView *view;
     friend class QmlApplicationViewer;
     QString adjustPath(const QString &path);
 };
@@ -64,12 +60,11 @@ QString QmlApplicationViewerPrivate::adjustPath(const QString &path)
     return path;
 }
 
-QmlApplicationViewer::QmlApplicationViewer(QWidget *parent)
-    : QDeclarativeView(parent)
+QmlApplicationViewer::QmlApplicationViewer(QWindow *parent)
+    : QQuickView(parent)
     , d(new QmlApplicationViewerPrivate(this))
 {
-    connect(engine(), SIGNAL(quit()), SLOT(close()));
-    setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    setResizeMode(QQuickView::SizeRootObjectToView);
     // Qt versions prior to 4.8.0 don't have QML/JS debugging services built in
 #if defined(QMLJSDEBUGGER) && QT_VERSION < 0x040800
 #if !defined(NO_JSDEBUGGER)
@@ -81,12 +76,11 @@ QmlApplicationViewer::QmlApplicationViewer(QWidget *parent)
 #endif
 }
 
-QmlApplicationViewer::QmlApplicationViewer(QDeclarativeView *view, QWidget *parent)
-    : QDeclarativeView(parent)
+QmlApplicationViewer::QmlApplicationViewer(QQuickView *view, QWindow *parent)
+    : QQuickView(parent)
     , d(new QmlApplicationViewerPrivate(view))
 {
-    connect(view->engine(), SIGNAL(quit()), view, SLOT(close()));
-    view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    view->setResizeMode(QQuickView::SizeRootObjectToView);
     // Qt versions prior to 4.8.0 don't have QML/JS debugging services built in
 #if defined(QMLJSDEBUGGER) && QT_VERSION < 0x040800
 #if !defined(NO_JSDEBUGGER)
@@ -126,7 +120,7 @@ void QmlApplicationViewer::addImportPath(const QString &path)
 void QmlApplicationViewer::setOrientation(ScreenOrientation orientation)
 {
     // TODO: Needs a Qt5 implmentation
-    Q_UNUSED(orientation)
+    Q_UNUSED(orientation);
 }
 
 void QmlApplicationViewer::showExpanded()
@@ -140,11 +134,9 @@ void QmlApplicationViewer::showExpanded()
 #endif
 }
 
-QApplication *createApplication(int &argc, char **argv)
+QGuiApplication *createApplication(int &argc, char **argv)
 {
-#ifdef HARMATTAN_BOOSTER
-    return MDeclarativeCache::qApplication(argc, argv);
-#else
-    return new QApplication(argc, argv);
-#endif
+    QGuiApplication *app = new QGuiApplication(argc, argv);
+    // app->setProperty("NoMStyle", true); // Seems not to be needed
+    return app;
 }

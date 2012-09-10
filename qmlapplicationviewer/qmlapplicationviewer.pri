@@ -5,12 +5,12 @@
 # It is recommended not to modify this file, since newer versions of Qt Creator
 # may offer an updated version of it.
 
-QT += declarative
-
 greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += quick
     SOURCES += $$PWD/qmlapplicationviewer_qt5.cpp
     HEADERS += $$PWD/qmlapplicationviewer_qt5.h
 } else {
+    QT += declarative
     SOURCES += $$PWD/qmlapplicationviewer_qt4.cpp
     HEADERS += $$PWD/qmlapplicationviewer_qt4.h
 }

@@ -4,7 +4,10 @@ folder_01.target = qml
 DEPLOYMENTFOLDERS = folder_01
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += quick quick1
+    DEFINES += MEEGO_EDITION_HARMATTAN # Seems to be missing in qt5? Or else it's scratchbox issue.
+    QT += quick
+} else {
+    QT += declarative
 }
 
 # Additional import path used to resolve QML modules in Creator's code model
@@ -27,8 +30,11 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # CONFIG += mobility
 # MOBILITY +=
 
+# PKGCONFIG += qdeclarative-boostable
+
 # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
-CONFIG += qdeclarative-boostable
+# CONFIG += qdeclarative-boostable
+# CONFIG += link_pkgconfig
 
 # Add dependency to Symbian components
 # CONFIG += qt-components
